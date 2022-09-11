@@ -1,4 +1,4 @@
-Hi 👋 My name is Hatem Saadallah
+Hi My name is Hatem Saadallah
 ================================
 
 Backend Developer
