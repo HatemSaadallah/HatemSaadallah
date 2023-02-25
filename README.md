@@ -6,7 +6,6 @@ Backend Developer
 
 * 🌍  I'm based in Palestine
 * ✉️  You can contact me at [saadallah.r.hatem@gmail.com](mailto:saadallah.r.hatem@gmail.com)
-* 🧠  I'm learning AI
 
 ### Skills
 
