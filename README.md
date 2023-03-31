@@ -4,8 +4,8 @@ Hi My name is Hatem Saadallah
 Backend Developer
 -----------------
 
-* 🌍  I'm based in Palestine
-* ✉️  You can contact me at [saadallah.r.hatem@gmail.com](mailto:saadallah.r.hatem@gmail.com)
+
+* ✉️  Contact me at [saadallah.r.hatem@gmail.com](mailto:saadallah.r.hatem@gmail.com)
 
 ### Skills
 
