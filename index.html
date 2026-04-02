@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hatem Saadallah — Software Engineer & AI Student</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a08;
+      --bg2: #111110;
+      --surface: #1a1a17;
+      --border: #2a2a26;
+      --text: #e8e4dc;
+      --muted: #7a7870;
+      --accent: #c8f060;
+      --accent2: #f0a030;
+      --accent3: #60d0c8;
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* ───── NAV ───── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, background 0.3s, backdrop-filter 0.3s;
+    }
+    nav.scrolled {
+      border-color: var(--border);
+      background: rgba(10,10,8,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ───── HERO ───── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.3;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,240,96,0.07) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      pointer-events: none;
+    }
+    .hero-left {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 4px 10px;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 6vw, 88px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.25s forwards;
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-desc {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 420px;
+      line-height: 1.8;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s forwards;
+    }
+    .hero-desc strong { color: var(--text); font-weight: 400; }
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.55s forwards;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 400;
+    }
+    .btn-primary:hover { background: #d8ff70; transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--text); transform: translateY(-2px); }
+
+    .hero-right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeIn 1s 0.6s forwards;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 100%;
+      max-width: 380px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .stat-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .stat-card:first-child { border-color: rgba(200,240,96,0.3); }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .stat-card.orange .stat-num { color: var(--accent2); }
+    .stat-card.teal .stat-num { color: var(--accent3); }
+
+    /* ───── SECTION COMMON ───── */
+    section {
+      padding: 100px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 60px;
+    }
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 0 0 100px;
+    }
+
+    /* ───── EXPERIENCE ───── */
+    .exp-list { display: flex; flex-direction: column; gap: 2px; }
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      overflow: hidden;
+      transition: border-color 0.2s;
+      cursor: default;
+    }
+    .exp-item:hover { border-color: var(--accent); }
+    .exp-meta {
+      padding: 28px 24px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .exp-company {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .exp-date {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .exp-badge {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      margin-top: 12px;
+      width: fit-content;
+    }
+    .badge-current { background: rgba(200,240,96,0.15); color: var(--accent); border: 1px solid rgba(200,240,96,0.3); }
+    .badge-past { background: rgba(122,120,112,0.15); color: var(--muted); border: 1px solid var(--border); }
+    .exp-content { padding: 28px 32px; }
+    .exp-role {
+      font-size: 13px;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .exp-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .exp-highlight {
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    /* ───── PROJECTS ───── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 32px 28px;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: transparent;
+      transition: background 0.3s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-card:hover::before { background: var(--accent); }
+    .project-card.orange:hover::before { background: var(--accent2); }
+    .project-card.teal:hover::before { background: var(--accent3); }
+    .project-num {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--border);
+      line-height: 1;
+      margin-bottom: 20px;
+      transition: color 0.3s;
+    }
+    .project-card:hover .project-num { color: var(--surface); }
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .project-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .project-link {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 10px; }
+
+    /* ───── SKILLS ───── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .skill-group {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+    }
+    .skill-group-title {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .skill-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .skill-item {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-item::before {
+      content: '·';
+      color: var(--accent);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    /* ───── AWARDS ───── */
+    .awards-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .award-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      transition: border-color 0.2s;
+    }
+    .award-item:hover { border-color: var(--accent2); }
+    .award-rank {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent2);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 40px;
+    }
+    .award-name {
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 4px;
+      font-family: var(--font-display);
+      font-weight: 600;
+    }
+    .award-detail {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ───── EDUCATION ───── */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .edu-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 36px 32px;
+      transition: border-color 0.2s;
+    }
+    .edu-card:hover { border-color: var(--accent3); }
+    .edu-degree {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .edu-school {
+      color: var(--accent3);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .edu-date { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .edu-courses {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    /* ───── CONTACT ───── */
+    .contact-section {
+      padding: 100px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .contact-headline {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+    .contact-headline span { color: var(--accent); }
+    .contact-sub {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    }
+    .contact-link:hover {
+      border-color: var(--accent);
+      background: var(--surface);
+      transform: translateX(4px);
+    }
+    .contact-link-label { font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    .contact-link-value { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+    .contact-arrow { color: var(--accent); font-size: 18px; }
+
+    /* ───── FOOTER ───── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ───── ANIMATIONS ───── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ───── SCROLL ANIMATIONS ───── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ───── RESPONSIVE ───── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; }
+      .hero-right { display: none; }
+      .exp-item { grid-template-columns: 1fr; }
+      .exp-meta { border-right: none; border-bottom: 1px solid var(--border); }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .awards-list { grid-template-columns: 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .contact-section { grid-template-columns: 1fr; gap: 40px; }
+      section { padding: 60px 24px; }
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      footer { flex-direction: column; gap: 10px; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">HS_</div>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-left">
+      <div class="hero-tag">Available for opportunities</div>
+      <h1 class="hero-name">Hatem<br /><span>Saadallah</span></h1>
+      <p class="hero-desc">
+        Senior Backend Engineer &amp; <strong>MSc AI student at Bocconi University.</strong>
+        Building production systems at the intersection of fintech, ecommerce, and machine learning.
+        Based in <strong>Milan</strong>, from Gaza.
+      </p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Get in touch →</a>
+        <a href="#experience" class="btn btn-ghost">View work</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Years experience</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="stat-num">10k</div>
+          <div class="stat-label">MRR achieved</div>
+        </div>
+        <div class="stat-card teal">
+          <div class="stat-num">20+</div>
+          <div class="stat-label">Microservices shipped</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2×</div>
+          <div class="stat-label">ACM Palestine Champion</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label reveal">/ Experience</div>
+    <h2 class="section-title reveal">Where I've<br />built things.</h2>
+    <div class="exp-list">
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div>
+            <div class="exp-company">SellAbroad</div>
+            <div class="exp-date">May 2025 — Present</div>
+            <div class="exp-date">UAE (Remote)</div>
+          </div>
+          <span class="exp-badge badge-current">Current</span>
+        </div>
+        <div class="exp-content">
+          <div class="exp-role">Founding Lead Engineer</div>
+          <p class="exp-desc">
+            Ecommerce tech enabling businesses to sell into the GCC/MENA region. Led a team of 3 engineers. Built a custom Shopify checkout page with geo-targeting and local payment methods (Paymob, Tabby, Tamara).
+            <span class="exp-highlight"> Reached $10k MRR within 2 months of launch.</span> Raised $500k seed funding.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">Shopify</span><span class="tag">NestJS</span><span class="tag">TypeScript</span>
+            <span class="tag">Paymob</span><span class="tag">Tabby</span><span class="tag">Tamara</span>
+            <span class="tag">Team Lead</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div>
+            <div class="exp-company">CharityStack</div>
+            <div class="exp-date">July 2025 — Present</div>
+            <div class="exp-date">United States (Remote)</div>
+          </div>
+          <span class="exp-badge badge-current">Current</span>
+        </div>
+        <div class="exp-content">
+          <div class="exp-role">Senior Software Engineer</div>
+          <p class="exp-desc">
+            Fintech platform for non-profits. Deployed Paragon (IPaaS) integrations syncing donations to CRMs. Built integrations with NetSuite, Virtuous, Salesforce, and DonorPerfect. Designed a subscription notification system on serverless architecture.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">AWS Lambda</span><span class="tag">NetSuite</span><span class="tag">Salesforce</span>
+            <span class="tag">Stripe</span><span class="tag">DynamoDB</span><span class="tag">SQS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div>
+            <div class="exp-company">Nsave</div>
+            <div class="exp-date">Sep 2023 — Apr 2025</div>
+            <div class="exp-date">UK (Remote)</div>
+          </div>
+          <span class="exp-badge badge-past">YC-backed</span>
+        </div>
+        <div class="exp-content">
+          <div class="exp-role">Senior Software Engineer</div>
+          <p class="exp-desc">
+            YC &amp; Sequoia-backed mobile banking alternative for high-inflation economies. Built dashboard and mobile features in React &amp; React Native. Architected microservices with Kafka message brokering. Integrated a new banking service for USD support.
+          </p>
+          <div class="exp-tags">
+            <span class="tag">React Native</span><span class="tag">Kafka</span><span class="tag">Microservices</span>
+            <span class="tag">Node.js</span><span class="tag">PostgreSQL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-meta">
+          <div>
+            <div class="exp-company">Dash.ps</div>
+            <div class="exp-date">Jul 2022 — Aug 2024</div>
+            <div class="exp-date">Gaza</div>
+          </div>
+          <span class="exp-badge badge-past">Past</span>
+        </div>
+        <div class="exp-content">
+          <div class="exp-role">Backend Engineer</div>
+          <p class="exp-desc">
+            Gaza's leading software house. Led backend on Limelite (US talent platform — serverless video processing with AWS Lambda, SNS/SQS) and MonMedx (Canada — EMR/EHR platform, 20+ microservices, AWS AppSync/GraphQL, PIPEDA compliance, single→multi-tenant migration).
+          </p>
+          <div class="exp-tags">
+            <span class="tag">AWS</span><span class="tag">AppSync</span><span class="tag">GraphQL</span>
+            <span class="tag">Lambda</span><span class="tag">SNS/SQS</span><span class="tag">Docker</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects" style="padding-top:0">
+    <div class="section-label reveal">/ Projects</div>
+    <h2 class="section-title reveal">Things I've<br />shipped.</h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-num">01</div>
+        <div class="project-name">SellAbroad</div>
+        <p class="project-desc">
+          Shopify geo-targeting checkout for MENA markets. Custom payment flows, express checkout, multi-currency. $10k MRR in 2 months, $500k seed raised.
+        </p>
+        <div class="exp-tags" style="margin-bottom:20px;">
+          <span class="tag">Shopify</span><span class="tag">NestJS</span><span class="tag">Stripe</span>
+        </div>
+      </div>
+
+      <div class="project-card orange reveal">
+        <div class="project-num">02</div>
+        <div class="project-name">GazaPriceWatch</div>
+        <p class="project-desc">
+          Crowdsourced price transparency platform for Gaza. Live data, owner portals, subscription tiers, and community-driven price reporting.
+        </p>
+        <div class="exp-tags" style="margin-bottom:20px;">
+          <span class="tag">Next.js</span><span class="tag">NestJS</span><span class="tag">Supabase</span>
+        </div>
+        <a href="https://gazaprice.vercel.app" target="_blank" class="project-link">View live →</a>
+      </div>
+
+      <div class="project-card teal reveal">
+        <div class="project-num">03</div>
+        <div class="project-name">CharityStack Integrations</div>
+        <p class="project-desc">
+          Enterprise CRM &amp; ERP integrations for non-profits: NetSuite, Salesforce, Virtuous, DonorPerfect. Serverless notification infrastructure.
+        </p>
+        <div class="exp-tags" style="margin-bottom:20px;">
+          <span class="tag">AWS</span><span class="tag">Paragon</span><span class="tag">REST APIs</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills" style="padding-top:0">
+    <div class="section-label reveal">/ Stack</div>
+    <h2 class="section-title reveal">Tools of<br />the trade.</h2>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Languages</div>
+        <div class="skill-items">
+          <div class="skill-item">TypeScript</div>
+          <div class="skill-item">Python</div>
+          <div class="skill-item">JavaScript</div>
+          <div class="skill-item">HTML &amp; CSS</div>
+          <div class="skill-item">C / C++</div>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Frameworks</div>
+        <div class="skill-items">
+          <div class="skill-item">NestJS / Node.js</div>
+          <div class="skill-item">React / Next.js</div>
+          <div class="skill-item">MedusaJS</div>
+          <div class="skill-item">Django</div>
+          <div class="skill-item">Serverless</div>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Cloud &amp; Infra</div>
+        <div class="skill-items">
+          <div class="skill-item">AWS Lambda</div>
+          <div class="skill-item">S3 / SQS / SNS</div>
+          <div class="skill-item">EC2 / RDS</div>
+          <div class="skill-item">DynamoDB</div>
+          <div class="skill-item">Docker</div>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Data &amp; AI</div>
+        <div class="skill-items">
+          <div class="skill-item">PostgreSQL</div>
+          <div class="skill-item">Supabase</div>
+          <div class="skill-item">Kafka</div>
+          <div class="skill-item">Deep Learning</div>
+          <div class="skill-item">Computer Vision</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- EDUCATION -->
+  <section id="education" style="padding-top:0">
+    <div class="section-label reveal">/ Education</div>
+    <h2 class="section-title reveal">Always<br />learning.</h2>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-degree">MSc Artificial Intelligence</div>
+        <div class="edu-school">Bocconi University, Milan</div>
+        <div class="edu-date">2025 — Present</div>
+        <div class="edu-courses">Deep Learning · Computer Vision · Information Theory · Statistics · Applied Mathematics · Software Engineering</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-degree">BEng Software Engineering</div>
+        <div class="edu-school">Al-Azhar University, Gaza</div>
+        <div class="edu-date">2018 — 2022</div>
+        <div class="edu-courses">High Distinction — Top 5% of class<br />President, Problem Solving Club</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- AWARDS -->
+  <section id="awards" style="padding-top:0">
+    <div class="section-label reveal">/ Awards</div>
+    <h2 class="section-title reveal">Competing<br />&amp; winning.</h2>
+    <div class="awards-list">
+      <div class="award-item reveal">
+        <div class="award-rank">1st</div>
+        <div>
+          <div class="award-name">ACM PCPC Palestine</div>
+          <div class="award-detail">2021 National Champion</div>
+        </div>
+      </div>
+      <div class="award-item reveal">
+        <div class="award-rank">2nd</div>
+        <div>
+          <div class="award-name">ACM PCPC Palestine</div>
+          <div class="award-detail">2022 — Runner-up</div>
+        </div>
+      </div>
+      <div class="award-item reveal">
+        <div class="award-rank">1st</div>
+        <div>
+          <div class="award-name">IEEEXtreme 16</div>
+          <div class="award-detail">1st Place in Gaza · Top 5% worldwide</div>
+        </div>
+      </div>
+      <div class="award-item reveal">
+        <div class="award-rank">🏆</div>
+        <div>
+          <div class="award-name">S.T.E.P Gaza Honorary Prize</div>
+          <div class="award-detail">2016 — Built an education platform for kids to learn programming via HTML/CSS/JS</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- CONTACT -->
+  <div class="contact-section" id="contact">
+    <div class="reveal">
+      <h2 class="contact-headline">Let's build<br /><span>something.</span></h2>
+      <p class="contact-sub">
+        Open to senior engineering roles, AI/ML positions, and interesting freelance projects.
+        I love hard problems, ambitious products, and teams that care about craft.
+      </p>
+    </div>
+    <div class="contact-links reveal">
+      <a href="mailto:hatem.saadallah@studbocconi.it" class="contact-link">
+        <div>
+          <div class="contact-link-label">Email</div>
+          <div class="contact-link-value">hatem.saadallah@studbocconi.it</div>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://github.com/hatem-saadallah" target="_blank" class="contact-link">
+        <div>
+          <div class="contact-link-label">GitHub</div>
+          <div class="contact-link-value">github.com/hatem-saadallah</div>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="https://linkedin.com/in/hatem-saadallah" target="_blank" class="contact-link">
+        <div>
+          <div class="contact-link-label">LinkedIn</div>
+          <div class="contact-link-value">linkedin.com/in/hatem-saadallah</div>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+      <a href="tel:+393514263595" class="contact-link">
+        <div>
+          <div class="contact-link-label">Phone</div>
+          <div class="contact-link-value">+(39) 351 426 3595</div>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Hatem Saadallah</span>
+    <span>Built with HTML · CSS · No frameworks</span>
+    <span>Milan, Italy</span>
+  </footer>
+
+  <script>
+    // Sticky nav
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
