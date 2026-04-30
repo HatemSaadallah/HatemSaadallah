@@ -13,32 +13,79 @@
 
 ---
 
-### 🚀 Featured project
+### 🚀 Featured projects
 
 <table>
   <tr>
     <td width="55%" valign="top">
-      <h4><a href="https://github.com/HatemSaadallah/feedback-augmented-rtdetr">Feedback-Augmented RT-DETR</a></h4>
+      <h4>🖼️ <a href="https://github.com/HatemSaadallah/feedback-augmented-rtdetr">Feedback-Augmented RT-DETR</a></h4>
+      <p><sub>Computer Vision · Real-time Detection · Transformers</sub></p>
       <p>
         A novel <strong>decoder-to-encoder feedback module</strong> for real-time object detection.
-        Proves the structural insight that an unconstrained learnable gate can be silently zeroed by the optimizer — and fixes it with a one-line reparameterization (a <em>floor</em> on the gate) and a P2/P3-only level mask.
+        Demonstrates the structural insight that an unconstrained learnable gate can be silently zeroed by the optimizer — and fixes it with a one-line reparameterization (a <em>floor</em> on the gate) and a P2/P3-only level mask.
       </p>
       <p>
         <strong>Result:</strong> +0.99 AP<sub>S</sub> causal contribution on COCO val2017 (33.26 → 34.25), where the v1 baseline of the same mechanism contributed 0.00.
       </p>
       <p>
-        <em>PyTorch · CUDA · SLURM · LaTeX · A100 HPC</em>
+        <em>PyTorch · CUDA · SLURM · A100 HPC · LaTeX</em>
       </p>
       <p>
         <a href="https://github.com/HatemSaadallah/feedback-augmented-rtdetr">📦 Repo</a> &nbsp;·&nbsp;
-        <a href="https://github.com/HatemSaadallah/feedback-augmented-rtdetr/blob/main/report/main.pdf">📄 16-page report (PDF)</a> &nbsp;·&nbsp;
-        <a href="https://github.com/HatemSaadallah/feedback-augmented-rtdetr/blob/main/presentation/feedback_augmented_rtdetr.pdf">🎤 Presentation</a>
+        <a href="https://github.com/HatemSaadallah/feedback-augmented-rtdetr/blob/main/report/main.pdf">📄 Report (PDF)</a> &nbsp;·&nbsp;
+        <a href="https://github.com/HatemSaadallah/feedback-augmented-rtdetr/blob/main/presentation/feedback_augmented_rtdetr.pdf">🎤 Slides</a>
       </p>
     </td>
     <td width="45%" valign="top">
       <a href="https://github.com/HatemSaadallah/feedback-augmented-rtdetr">
         <img src="https://raw.githubusercontent.com/HatemSaadallah/feedback-augmented-rtdetr/main/report/figures/ablation_bars.png" alt="v2 same-checkpoint ablation: Δ AP_S = +0.99" />
       </a>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td width="55%" valign="top">
+      <h4>🔤 <a href="https://github.com/HatemSaadallah/irab_project">I'rāb-Guided Arabic Diacritization</a></h4>
+      <p><sub>NLP · Multi-task Learning · Low-resource Languages</sub></p>
+      <p>
+        An <strong>explainable</strong> Arabic NLP system. Unlike pure neural diacritizers, every predicted diacritic comes with a <em>grammatical justification</em> — the i'rāb head doubles as auxiliary training signal (regularizing the encoder) and as an interpretability layer (exposing the model's syntactic reasoning).
+      </p>
+      <p>
+        Three task heads on a shared character-level transformer encoder: <strong>tashkīl</strong> (15-way diacritic classifier), <strong>i'rāb</strong> (11-way grammatical-role classifier), and <strong>error tagger</strong> (BIO over orthographic + grammatical errors). Trained jointly on Tashkeela (~75M words), QAC, I3rab Treebank, and synthetic perturbations with per-sample loss masking.
+      </p>
+      <p>
+        <em>PyTorch Lightning · Transformers · LoRA / QLoRA · SentencePiece · Streamlit · HuggingFace</em>
+      </p>
+      <p>
+        <a href="https://github.com/HatemSaadallah/irab_project">📦 Repo</a>
+      </p>
+    </td>
+    <td width="45%" valign="top">
+      <table align="center">
+        <tr><td align="center" colspan="2"><sub>Input → Output</sub></td></tr>
+        <tr>
+          <td align="center" dir="rtl"><h3>ذهب الولدُ</h3></td>
+          <td align="center"><sub>(plain text)</sub></td>
+        </tr>
+        <tr>
+          <td align="center"><strong>↓</strong></td>
+          <td align="center"></td>
+        </tr>
+        <tr>
+          <td align="center" dir="rtl"><h3>ذَهَبَ الْوَلَدُ</h3></td>
+          <td align="center"><sub>+ diacritics</sub></td>
+        </tr>
+        <tr>
+          <td align="center"><strong>↓</strong></td>
+          <td align="center"></td>
+        </tr>
+        <tr>
+          <td align="center" dir="rtl"><sub>ذَهَبَ <em>(verb, past)</em><br/>الْوَلَدُ <em>(fāʿil, marfūʿ)</em></sub></td>
+          <td align="center"><sub>+ i'rāb</sub></td>
+        </tr>
+      </table>
     </td>
   </tr>
 </table>
