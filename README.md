@@ -1,5 +1,5 @@
 <h1 align="left">Hi, I'm Hatem Saadallah 👋</h1>
-<h3 align="left">Machine Learning Engineer · Senior Software Engineer</h3>
+<h3 align="left">Machine Learning Engineer · Software Engineer</h3>
 
 <p align="left">
   Building production ML systems at the intersection of computer vision, deep learning, and scalable backend engineering. I care about
