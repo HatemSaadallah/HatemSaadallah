@@ -3,7 +3,7 @@
 
 <p align="left">
   Building production ML systems at the intersection of computer vision, deep learning, and scalable backend engineering. I care about
-  models that <em>actually contribute causally</em> at inference, not just on a leaderboard — and about the engineering rigour to ship them.
+  models
 </p>
 
 <p align="left">
