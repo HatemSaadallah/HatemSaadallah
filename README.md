@@ -2,7 +2,7 @@
 <h3 align="left">Machine Learning Engineer · Software Engineer</h3>
 
 <p align="left">
-  Building production ML systems at the intersection of computer vision, deep learning, and scalable backend engineering. I care about
+  Building production ML systems at the intersection of computer vision, LLM agents, and scalable backend engineering. I care about
   models
 </p>
 
@@ -14,6 +14,43 @@
 ---
 
 ### 🚀 Featured projects
+
+<table>
+  <tr>
+    <td width="55%" valign="top">
+      <h4>👁️ <a href="https://github.com/HatemSaadallah/aemon">aemon: a strategy-investigation agent</a></h4>
+      <p><sub>LLM Agents · Agentic Fine-tuning · Evaluation</sub></p>
+      <p>
+        Teaches a <strong>3B open model</strong> (Tiny Aya Global) to investigate a strategy question the way a careful analyst would: frame the decision, state rival explanations, weigh quoted evidence for and against each, look for what would prove the favourite wrong, propose a test, and revise when new evidence arrives. Twelve guarded tools and a stage controller enforce the procedure: a quote that is not word for word in its source is refused, and every run replays step by step.
+      </p>
+      <p>
+        <strong>Result:</strong> <strong>+0.83</strong> blind quality over the best-prompted base model on a frozen test run once (0–3 scale, 95% CI 0.69 to 0.97), and <strong>+0.52</strong> on a second frozen test of 12 unseen companies. The final system finishes <strong>46 of 48</strong> investigations against the base model's 4, in 39 tool calls against 242. Distilled from Command A+: only teacher runs that replayed exactly became training data.
+      </p>
+      <p>
+        Built with <a href="https://huggingface.co/Nour1928">Nour Jennane</a> for the Lexsi AI Hackathon (Track 3, agentic fine-tuning).
+      </p>
+      <p>
+        <em>AgentTune (LoRA) · AuditKIT · PEFT / TRL · llama.cpp · FastAPI · React · Hugging Face · SLURM</em>
+      </p>
+      <p>
+        <a href="https://github.com/HatemSaadallah/aemon">📦 Repo</a> &nbsp;·&nbsp;
+        <a href="https://huggingface.co/spaces/HatemSaadallah/aemon">🖥️ Live demo</a> &nbsp;·&nbsp;
+        <a href="https://huggingface.co/two-eyed-ravens/aemon">🤗 Model</a> &nbsp;·&nbsp;
+        <a href="https://huggingface.co/datasets/two-eyed-ravens/aemon">🗂️ Dataset</a> &nbsp;·&nbsp;
+        <a href="https://huggingface.co/blog/HatemSaadallah/aemon">📝 Article</a> &nbsp;·&nbsp;
+        <a href="https://github.com/HatemSaadallah/aemon/blob/main/docs/PAPER.pdf">📄 Paper (PDF)</a>
+      </p>
+    </td>
+    <td width="45%" valign="top">
+      <a href="https://github.com/HatemSaadallah/aemon">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/HatemSaadallah/aemon/main/docs/figures/quality-dark.png" />
+          <img src="https://raw.githubusercontent.com/HatemSaadallah/aemon/main/docs/figures/quality-light.png" alt="Final test, four companies never seen in training: blind quality 1.48 fine-tuned against 0.65 for the base model" />
+        </picture>
+      </a>
+    </td>
+  </tr>
+</table>
 
 <table>
   <tr>
@@ -150,7 +187,8 @@
 
 ### 🎯 What I'm working on
 
-- 🔬 **Computer vision research** — transformer detectors, small-object detection, attention-based refinement (see featured project above).
+- 🕵️ **LLM agents and agentic fine-tuning** — distilling an investigative procedure into small open models, guarded tool use, and blind LLM-judge evaluation (see aemon above).
+- 🔬 **Computer vision research** — transformer detectors, small-object detection, attention-based refinement (see RT-DETR above).
 - 🛠️ **ML systems engineering** — bridging research code and production: reproducible training pipelines, ablation harnesses, ONNX export, GPU profiling.
 - 📚 **Learning** — currently deepening into RL for sequential decision-making and the latest LLM-as-a-tool literature.
 
