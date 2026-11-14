@@ -20,6 +20,7 @@
       --accent: #c8f060;
       --accent2: #f0a030;
       --accent3: #60d0c8;
+      --accent4: #8fa3ff;
       --font-display: 'Syne', sans-serif;
       --font-mono: 'DM Mono', monospace;
     }
@@ -352,6 +353,10 @@
     .project-card:hover::before { background: var(--accent); }
     .project-card.orange:hover::before { background: var(--accent2); }
     .project-card.teal:hover::before { background: var(--accent3); }
+    .project-card.blue:hover::before { background: var(--accent4); }
+    .project-card.featured { grid-column: 1 / -1; }
+    .project-card.featured .project-desc { max-width: 760px; }
+    .project-links { display: flex; flex-wrap: wrap; gap: 8px 28px; }
     .project-num {
       font-family: var(--font-display);
       font-size: 48px;
@@ -756,8 +761,25 @@
     <h2 class="section-title reveal">Things I've<br />shipped.</h2>
     <div class="projects-grid">
 
-      <div class="project-card reveal">
+      <div class="project-card blue featured reveal">
         <div class="project-num">01</div>
+        <div class="project-name">aemon</div>
+        <p class="project-desc">
+          A strategy-investigation agent. A 3B open model (Tiny Aya Global) fine-tuned to frame a decision, weigh quoted evidence for and against rival explanations, propose a test, and revise when new evidence arrives. Twelve guarded tools refuse any quote that is not word for word in its source, so every step can be audited. +0.83 blind quality over the best-prompted base model on a frozen test; the final system finishes 46 of 48 investigations against the base model's 4. Open weights, dataset, article and a live demo on Hugging Face.
+        </p>
+        <div class="exp-tags" style="margin-bottom:20px;">
+          <span class="tag">AgentTune</span><span class="tag">AuditKIT</span><span class="tag">LoRA</span><span class="tag">llama.cpp</span><span class="tag">FastAPI</span><span class="tag">React</span>
+        </div>
+        <div class="project-links">
+          <a href="https://huggingface.co/spaces/HatemSaadallah/aemon" target="_blank" class="project-link">Live demo →</a>
+          <a href="https://github.com/HatemSaadallah/aemon" target="_blank" class="project-link">Code →</a>
+          <a href="https://huggingface.co/two-eyed-ravens/aemon" target="_blank" class="project-link">Model →</a>
+          <a href="https://huggingface.co/blog/HatemSaadallah/aemon" target="_blank" class="project-link">Article →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">02</div>
         <div class="project-name">SellAbroad</div>
         <p class="project-desc">
           Shopify geo-targeting checkout for MENA markets. Custom payment flows, express checkout, multi-currency. $10k MRR in 2 months, $500k seed raised.
@@ -768,7 +790,7 @@
       </div>
 
       <div class="project-card orange reveal">
-        <div class="project-num">02</div>
+        <div class="project-num">03</div>
         <div class="project-name">GazaPriceWatch</div>
         <p class="project-desc">
           Crowdsourced price transparency platform for Gaza. Live data, owner portals, subscription tiers, and community-driven price reporting.
@@ -780,7 +802,7 @@
       </div>
 
       <div class="project-card teal reveal">
-        <div class="project-num">03</div>
+        <div class="project-num">04</div>
         <div class="project-name">CharityStack Integrations</div>
         <p class="project-desc">
           Enterprise CRM &amp; ERP integrations for non-profits: NetSuite, Salesforce, Virtuous, DonorPerfect. Serverless notification infrastructure.

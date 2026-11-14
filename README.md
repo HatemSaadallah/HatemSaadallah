@@ -27,9 +27,6 @@
         <strong>Result:</strong> <strong>+0.83</strong> blind quality over the best-prompted base model on a frozen test run once (0–3 scale, 95% CI 0.69 to 0.97), and <strong>+0.52</strong> on a second frozen test of 12 unseen companies. The final system finishes <strong>46 of 48</strong> investigations against the base model's 4, in 39 tool calls against 242. Distilled from Command A+: only teacher runs that replayed exactly became training data.
       </p>
       <p>
-        Built with <a href="https://huggingface.co/Nour1928">Nour Jennane</a> for the Lexsi AI Hackathon (Track 3, agentic fine-tuning).
-      </p>
-      <p>
         <em>AgentTune (LoRA) · AuditKIT · PEFT / TRL · llama.cpp · FastAPI · React · Hugging Face · SLURM</em>
       </p>
       <p>
