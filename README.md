@@ -9,6 +9,7 @@
 <p align="left">
   🎓&nbsp;&nbsp;MSc Artificial Intelligence student · Bocconi University<br/>
   📍&nbsp;&nbsp;Milan, Italy<br/>
+  💼&nbsp;&nbsp;<a href="https://www.linkedin.com/in/hatem-r-sadallah/">LinkedIn</a><br/>
   ✉️&nbsp;&nbsp;<a href="mailto:saadallah.r.hatem@gmail.com">saadallah.r.hatem@gmail.com</a><br/>
 </p>
 
@@ -195,6 +196,7 @@
 
 <p align="left">
   <a href="https://github.com/HatemSaadallah" target="_blank"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/github.svg" width="32" height="32" alt="GitHub" /></a>
+  <a href="https://www.linkedin.com/in/hatem-r-sadallah/" target="_blank"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/linkedin.svg" width="32" height="32" alt="LinkedIn" /></a>
   <a href="mailto:saadallah.r.hatem@gmail.com"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/socials/gmail.svg" width="32" height="32" alt="Gmail" /></a>
 </p>
 
